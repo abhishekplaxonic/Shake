@@ -117,3 +117,30 @@ min-height: 100vh;
     justify-content: center;
     justify-items: center
 }
+
+.centerimg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.centerimg img{
+  width: 15%;
+  height: 15%;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+}
+
+.head{
+  margin-bottom: 3rem;
+}
+
+.belowimage{
+  display: flex;
+  justify-content: space-around;  
+}
+
+.belowimage img{
+  width: 15%;
+  height: 15%;
+}

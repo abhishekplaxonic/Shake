@@ -16,11 +16,11 @@ export default function Dashboard() {
   // User Login info
   const database = [
     {
-      username: "user1",
+      username: "admin1",
       password: "pass1"
     },
     {
-      username: "user2",
+      username: "admin2",
       password: "pass2"
     }
   ];
