@@ -6,21 +6,21 @@ var imageSchema = new mongoose.Schema({
     imgFirst:
     {
         data: Buffer,
-        contentType: 'image/png'
+        contentType: String
     },
     imgSecond:
     {
         data: Buffer,
-        contentType: 'image/png'
+        contentType: String
     },
     imgThird:
     {
         data: Buffer,
-        contentType: 'image/png'
+        contentType: String
     },imgFourth:
     {
         data: Buffer,
-        contentType: 'image/png'
+        contentType: String
     }
 });
   
