@@ -14,7 +14,7 @@ function Inputform() {
 
 
  
-    const [urlvalue, setUrlvalue] = useState(); 
+    const [urlValue, setUrlvalue] = useState(); 
     const [showText, setShowText] = useState();
     const [input , setInput] = useState();
     const [inputTwo, setInputTwo] = useState();
@@ -64,12 +64,12 @@ function Inputform() {
     };
     
   
-    if (image && image2 && image3 && image4 && text &&url) {
+    if (image && image2 && image3 && image4 && text && url) {
       return (
         <>
          <div className='centerimg'>
             <img src={image} alt="Logo" />
-            <img src={url} alt="Logo" />
+            
          </div>
 
          <div className='centerimg head'>
@@ -80,6 +80,7 @@ function Inputform() {
           <img src={image2} alt="Logo" />
           <img src={image3} alt="Logo" />
           <img src={image4} alt="Logo" />
+          <img src={url} alt="Logo" />
          </div>
         </>
       );
@@ -93,7 +94,7 @@ function Inputform() {
       setImage3(inputThree)
       setImage4(inputFour)
       setText(showText);
-      setUrl(urlvalue)
+      setUrl(urlValue)
   }
 
 
@@ -153,7 +154,7 @@ function Inputform() {
           Name:
           <input
             onChange={imagechange}
-            value={urlvalue}
+            value={urlValue}
             type="text"
             name="name"
           />
