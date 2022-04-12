@@ -21,7 +21,7 @@ export default function Dashboard() {
     },
     {
       username: "admin2",
-      password: "pass2"
+      password: "pas2"
     }
   ];
 
