@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 import './Dashboard.css'
+import axios from 'axios';
 
 
 function Inputform() {
+
+    const[store , setStore] = useState()
   
     const [ image , setImage] = useState();
     const [image2 , setImage2] = useState();
@@ -33,6 +36,7 @@ function Inputform() {
       file.onloadend = function (event) {
         setInput(event.target.result);
       };
+      setStore(e.target.files[0])
     };
 
     const imageChange1 = (e) => {
@@ -41,6 +45,7 @@ function Inputform() {
         file.onloadend = function(event){
           setInputTwo(event.target.result)
         };
+        setStore(...store , e.target.files[1])
     }  
 
     const imageChange2 = (e) => {
@@ -49,6 +54,7 @@ function Inputform() {
          file.onloadend = function(event){
            setInputThree(event.target.result)
          }
+         setStore(...store , e.target.files[2])
     }
 
     const imageChange3 = (e) => {
@@ -57,6 +63,7 @@ function Inputform() {
          file.onloadend = function(event){
            setInputFour(event.target.result)
          }
+         setStore(...store , e.target.files[3])
     }
 
     const imagechange = (e) => {
@@ -64,7 +71,7 @@ function Inputform() {
     };
     
   
-    if (image && image2 && image3 && image4 && text && url) {
+    if (image && image2 && image3 && image4 && text ) {
       return (
         <>
          <div className='centerimg'>
@@ -80,15 +87,40 @@ function Inputform() {
           <img src={image2} alt="Logo" />
           <img src={image3} alt="Logo" />
           <img src={image4} alt="Logo" />
-          <img src={url} alt="Logo" />
+          {/* <img src={url} alt="Logo" /> */}
          </div>
         </>
       );
     }
+
+  //   const onUpload = (event) => {
+     
+  // }
   
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    let formData = new FormData();
+
+
+
+     formData.append('text', text);   //append the values with key, value pair
+     
+           const config = {     
+                  headers: { 'content-type': 'multipart/form-data' }
+           }
+
+    for (const key of Object.keys(store)) {
+        formData.append('store', store[key])
+    }
+    axios.post("http://localhost:8000/endpoint/multi-images-upload", formData, config, {
+    }).then(response => {
+        console.log((response.data))
+    })
+    .catch(error => {
+      console.log(error);
+  });
       setImage(input)
       setImage2(inputTwo)
       setImage3(inputThree)
@@ -97,6 +129,7 @@ function Inputform() {
       setUrl(urlValue)
   }
 
+  
 
 
   return (
@@ -116,7 +149,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-1 </label>
-             <input onChange={imageChange} type="file" name="uname" required />
+             <input onChange={imageChange} type="file" multiple name="store" required />
            </div>
         </div>
         <div className="input-container1">
@@ -126,7 +159,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-2 </label>
-             <input onChange={imageChange1} type="file" name="uname" required />
+             <input onChange={imageChange1} type="file" multiple name="store" required />
            </div>
         </div>
         <div className="input-container1">
@@ -136,7 +169,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-3 </label>
-             <input onChange={imageChange2} type="file" name="uname" required />
+             <input onChange={imageChange2} type="file" multiple name="store" required />
            </div>
         </div>
         <div className="input-container1">
@@ -146,20 +179,20 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-4 </label>
-             <input onChange={imageChange3} type="file" name="uname" required />
+             <input onChange={imageChange3} type="file" multiple name="store" required />
            </div>
         </div>
-        <div>
+        {/* <div>
         <label>
           Name:
           <input
             onChange={imagechange}
             value={urlValue}
             type="text"
-            name="name"
+            name="url"
           />
         </label>
-        </div>
+        </div> */}
        
 
         {/* <label>Upload Image1</label>
@@ -178,7 +211,7 @@ function Inputform() {
           {/* <input type="text" name="pass" required />
           
         */}
-        <input onChange={textChange} value={text} type="text" />
+        <input onChange={textChange} value={text} name={text}  type="text" />
         </div>
         <button className="button-container">
          Submit
