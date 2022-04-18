@@ -36,7 +36,8 @@ function Inputform() {
       file.onloadend = function (event) {
         setInput(event.target.result);
       };
-      setStore(e.target.files[0])
+      setImage(e.target.files[0])
+     
     };
 
     const imageChange1 = (e) => {
@@ -45,7 +46,9 @@ function Inputform() {
         file.onloadend = function(event){
           setInputTwo(event.target.result)
         };
-        setStore(...store , e.target.files[1])
+        // setStore(...store , e.target.files[1])
+        setImage2(e.target.files[0])
+   
     }  
 
     const imageChange2 = (e) => {
@@ -54,7 +57,8 @@ function Inputform() {
          file.onloadend = function(event){
            setInputThree(event.target.result)
          }
-         setStore(...store , e.target.files[2])
+        //  setStore(...store , e.target.files[2])
+        setImage3(e.target.files[0])
     }
 
     const imageChange3 = (e) => {
@@ -63,7 +67,7 @@ function Inputform() {
          file.onloadend = function(event){
            setInputFour(event.target.result)
          }
-         setStore(...store , e.target.files[3])
+         setImage4(e.target.files[0])
     }
 
     const imagechange = (e) => {
@@ -105,15 +109,19 @@ function Inputform() {
 
 
 
-     formData.append('text', text);   //append the values with key, value pair
+     formData.append('text', showText);   //append the values with key, value pair
+     formData.append('image', image);
+     formData.append('image2', image2);
+     formData.append('image3', image3);
+     formData.append('image4', image4);
      
            const config = {     
                   headers: { 'content-type': 'multipart/form-data' }
            }
 
-    for (const key of Object.keys(store)) {
-        formData.append('store', store[key])
-    }
+    // for (const key of Object.keys(store)) {
+    //     formData.append('store', store[key])
+    // }
     axios.post("http://localhost:8000/endpoint/multi-images-upload", formData, config, {
     }).then(response => {
         console.log((response.data))
@@ -127,6 +135,13 @@ function Inputform() {
       setImage4(inputFour)
       setText(showText);
       setUrl(urlValue)
+
+      console.log(image , "this is submitted image")
+      console.log(showText , "this is text")
+      console.log(image2 , "this is image2")
+      console.log(image3 , "this is image3")
+      console.log(image4 , "this is image4")
+      
   }
 
   
@@ -149,7 +164,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-1 </label>
-             <input onChange={imageChange} type="file" multiple name="store" required />
+             <input onChange={imageChange} type="file" multiple  name="image" required />
            </div>
         </div>
         <div className="input-container1">
@@ -159,7 +174,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-2 </label>
-             <input onChange={imageChange1} type="file" multiple name="store" required />
+             <input onChange={imageChange1} type="file" multiple  name="image2" required />
            </div>
         </div>
         <div className="input-container1">
@@ -169,7 +184,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-3 </label>
-             <input onChange={imageChange2} type="file" multiple name="store" required />
+             <input onChange={imageChange2} type="file" multiple name="image3" required />
            </div>
         </div>
         <div className="input-container1">
@@ -179,7 +194,7 @@ function Inputform() {
            </div>
            <div>
              <label>Image Upload-4 </label>
-             <input onChange={imageChange3} type="file" multiple name="store" required />
+             <input onChange={imageChange3} type="file" multiple name="image4" required />
            </div>
         </div>
         {/* <div>
@@ -211,7 +226,7 @@ function Inputform() {
           {/* <input type="text" name="pass" required />
           
         */}
-        <input onChange={textChange} value={text} name={text}  type="text" />
+        <input onChange={textChange} value={text} name="text"  type="text" />
         </div>
         <button className="button-container">
          Submit
