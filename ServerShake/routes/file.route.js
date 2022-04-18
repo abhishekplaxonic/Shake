@@ -31,38 +31,46 @@ var upload = multer({
     }
 });
 
-router.post('/multi-images-upload', upload.array('imagesArray', 8), (req, res, next) => {
-    const reqFiles = [];
+router.post('/multi-images-upload', upload.any(), (req, res) => {
 
-    const url = req.protocol + '://' + req.get('host')
-
-    for (var i = 0; i < req.files.length; i++) {
-        reqFiles.push(url + '/public/' + req.files[i].filename)
+    if (!req.body && !req.files) {
+      res.json({ success: false });
+    } else {
+      let c;
+      File.findOne({}, (err, data) => {
+  
+        if (data) {
+          c = data.unique_id + 1;
+        } else {
+          c = 1;
+        }
+  
+        let detail = new File({
+  
+          unique_id: c,
+          text: req.body.text,
+          image1: req.files[0] && req.files[0].filename ? req.files[0].filename : '',
+          image2: req.files[1] && req.files[1].filename ? req.files[1].filename : '',
+          image3: req.files[2] && req.files[2].filename ? req.files[2].filename : '',
+          image4: req.files[3] && req.files[3].filename ? req.files[3].filename : '',
+        });
+  
+        detail.save((err, Person) => {
+          if (err)
+            console.log(err);
+          else
+          res.status(201).json({
+              message:"uploaded",   
+           })
+  
+        });
+  
+      }).sort({ _id: -1 }).limit(1);
+  
     }
+  });
 
-    const user = new File({
-        _id: new mongoose.Types.ObjectId(),
-        imagesArray: reqFiles,
-        text:req.body.text,
-        
-    });
 
-    user.save().then(result => {
-        res.status(201).json({
-            message: "Uploaded!",
-            userCreated: {
-                _id: result._id,
-                imagesArray: result.imagesArray,
-                text:result.text,
-            }
-        })
-    }).catch(err => {
-        console.log(err),
-            res.status(500).json({
-                error: err
-            });
-    })
-})
 
 router.get("/", (req, res, next) => {
     File.find().then(response => {
